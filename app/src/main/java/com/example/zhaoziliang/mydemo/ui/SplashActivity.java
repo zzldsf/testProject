@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mStartTime = System.currentTimeMillis();  //获取当前的时间
-        mHandler.sendEmptyMessage(GO_TO_LOGIN);
+//        mHandler.sendEmptyMessage(GO_TO_LOGIN);
 
     }
 
