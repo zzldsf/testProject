@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">aaa</string>
+    <string name="android_auto_update_download_progress">正在下载:%1$d%%</string>
+    <string name="tab_main">首页</string>
+    <string name="tab_choice">分类</string>
+    <string name="tab_shopcar">购物车</string>
+    <string name="tab_about_me">我的</string>
+</resources>
