@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
      */
     private static final int WAIT_SECONDS = 3000;// 最小显示时间
     /**
-     * 引导页面的开始时间
+     * 引导页面的开始时间。
      */
     private long mStartTime;
     @Override
