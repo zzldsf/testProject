@@ -9,6 +9,7 @@ import java.io.File;
  */
 
 public class FileConstant {
-    public static final String zipPath= Environment.getExternalStorageDirectory().toString()+ File.separator +"tupian.zip";
+    public static final String zipPath= Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator +"tupian.zip";
     public static final String JS_BUNDLE_REACT_UPDATE_PATH = Environment.getExternalStorageDirectory().toString();
+    public static final String remoteZipPath="http://xiazaizip.oss-cn-beijing.aliyuncs.com/tupian.zip";
 }
