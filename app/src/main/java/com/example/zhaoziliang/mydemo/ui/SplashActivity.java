@@ -5,18 +5,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.zhaoziliang.mydemo.FileConstant;
 import com.example.zhaoziliang.mydemo.R;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.util.FileDownloadHelper;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,17 +58,87 @@ public class SplashActivity extends AppCompatActivity {
                 if (!(checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))) {//检查存储权限
                     ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
                 } else {
-                    //已经有权限可以下载和解压
-                    // TODO: 2018/3/29 下载
-                    //解压
-                    jieya();
+                    downloadzip();
                 }
 
             }
         });
     }
+    //下载
+    private void downloadzip(){
+        //已经有权限可以下载和解压
+        FileDownloader.getImpl().create(FileConstant.remoteZipPath)
+                .setPath(FileConstant.zipPath)
+                .setListener(createListener())
+                .setTag(1)
+                .start();
+    }
+    private FileDownloadListener createListener() {
+        return new FileDownloadListener() {
 
+            @Override
+            protected boolean isInvalid() {
+                return isFinishing();
+            }
 
+            @Override
+            protected void pending(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                Log.d("aaa","pending");
+
+            }
+
+            @Override
+            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+                Log.d("aaa","connected");
+
+            }
+
+            @Override
+            protected void progress(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                Log.d("aaa","progress");
+
+            }
+
+            @Override
+            protected void blockComplete(final BaseDownloadTask task) {
+                Log.d("aaa","blockComplete");
+
+            }
+
+            @Override
+            protected void retry(BaseDownloadTask task, Throwable ex, int retryingTimes, int soFarBytes) {
+                super.retry(task, ex, retryingTimes, soFarBytes);
+                Log.d("aaa","retry");
+
+            }
+
+            @Override
+            protected void completed(BaseDownloadTask task) {
+                Log.d("aaa",task.getUrl());
+                //解压
+                jieya();
+            }
+
+            @Override
+            protected void paused(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                Log.d("aaa","paused");
+
+            }
+
+            @Override
+            protected void error(BaseDownloadTask task, Throwable e) {
+                Log.d("aaa","error");
+
+            }
+
+            @Override
+            protected void warn(BaseDownloadTask task) {
+                Log.d("aaa","warn");
+
+            }
+        };
+    }
     private void jieya() {
         try {
             ZipInputStream inZip = null;
@@ -150,7 +227,7 @@ public class SplashActivity extends AppCompatActivity {
         if (requestCode == REQUEST_PERMISSION_STORAGE) {
             if (grantResults.length > 0) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    jieya();
+                    downloadzip();
                 } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {//点击拒绝授权
 
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this

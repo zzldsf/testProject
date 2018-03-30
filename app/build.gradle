@@ -26,4 +26,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.test:runner:1.0.1'
     compile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'com.liulishuo.filedownloader:library:1.7.2'
 }
