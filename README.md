@@ -1,3 +1,3 @@
 # testProject
 动态下载首页icon进行节日展示
-目前demo只写了怎样解压和展示解压后的icon（可以通过adb命令推到手机sd上 来模拟下载压缩文件）。。如何下载压缩包，先去吃个午饭。一会儿就加上。
+利用FileDownloader这个下载库来进行下载包含hdpi、xhdpi、xxhdpi三套icon资源的zip压缩包，下载成功后进行解压操作，进入首页后根据手机屏幕密度判断使用哪套尺寸的icon。
