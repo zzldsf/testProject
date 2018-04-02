@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -77,9 +78,22 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         rbHome.setChecked(true);
 
-        String s2 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xhdpi/pay_rb_checked.png";
-        String s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xhdpi/pay_rb_unchecked.png";
-        if (fileIsExists(s1)&&fileIsExists(s2)){
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int midu = metrics.densityDpi;
+        String s1 = "";
+        String s2 = "";
+        if (midu < 280) {//hdpi
+            s2 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/hdpi/pay_rb_checked.png";
+            s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/hdpi/pay_rb_unchecked.png";
+        } else if (midu > 400) {//xxhdpi
+            s2 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xxhdpi/pay_rb_checked.png";
+            s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xxhdpi/pay_rb_unchecked.png";
+        } else {//xhdpi
+            s2 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xhdpi/pay_rb_checked.png";
+            s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xhdpi/pay_rb_unchecked.png";
+        }
+        Log.d("zzl","屏幕密度"+midu);
+        if (fileIsExists(s1) && fileIsExists(s2)) {
             Bitmap bitmap1 = BitmapFactory.decodeFile(s1);
             Bitmap bitmap2 = BitmapFactory.decodeFile(s2);
             Log.d("zzl", s1 + "   " + s2);
@@ -97,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             mShopCarPress = drawable2;
             mAboutMeNor = drawable1;
             mAboutMePress = drawable2;
-        }else {
+        } else {
             mHomeNor = gainDrawable(R.drawable.rb_home_normal);
             mHomePress = gainDrawable(R.drawable.rb_home_pressed);
             mCategoryNor = gainDrawable(R.drawable.rb_fenlei_normal);
